@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import Projects
+from .models import Projects, Tag
+from .forms import ProjectForm
 
 # from fourth.devsearch.projects.models import Projects
 
@@ -11,3 +12,15 @@ def projects(request):
         'projects' : pr,
     }
     return render(request, "projects/projects.html", context)
+
+def project(request, pk):
+    project_obj = Projects.objects.get(id=pk)
+
+    return render(request, 'projects/single-project.html', {'project': project_obj})
+
+def create_project(request):
+    form = ProjectForm()
+    context = {
+        'form': form,
+    }
+    return render(request, "projects/form-template.html", context)
