@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Projects, Tag
 from .forms import ProjectForm
+from django.contrib.auth.decorators import login_required
+
 
 # from fourth.devsearch.projects.models import Projects
 
@@ -13,11 +15,13 @@ def projects(request):
     }
     return render(request, "projects/projects.html", context)
 
+@login_required(login_url='login')
 def project(request, pk):
     project_obj = Projects.objects.get(id=pk)
 
     return render(request, 'projects/single-project.html', {'project': project_obj})
 
+@login_required(login_url='login')
 def create_project(request):
     form = ProjectForm()
 
